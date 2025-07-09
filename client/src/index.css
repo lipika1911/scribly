@@ -7,11 +7,35 @@
     }
 
     body{
-        background-color: #fdfeff;
+        background-color: var(--background-color);
         overflow-x: hidden;
     }
 }
 
 @layer components{
     
+}
+
+:root {
+  /* Primary Theme Colors */
+  --primary-color: #7743DB;
+
+  /* Backgrounds */
+  --background-color: #FFFBF5;
+  --surface-color: #FFFFFF; /* White surface over background */
+
+  /* Text Colors */
+  --text-color: #1A1A1A;      
+  --text-light: #666666;        
+  --text-on-primary: #FFFFFF;   
+
+  /* Accent/States */
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+
+  /* Border & Shadow */
+  --border-color: #e0e0e0;
+  --shadow-color: rgba(0, 0, 0, 0.1);
 }
