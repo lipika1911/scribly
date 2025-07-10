@@ -1,8 +1,16 @@
-import React from 'react';
-import { Container, Grid, Fab, Box } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Container,
+  Grid,
+  Fab,
+  Box,
+  Modal,
+  Paper,
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import NoteCard from '../../components/Cards/NoteCard';
 import Navbar from '../../components/Navbar/Navbar';
+import AddEditNotes from './AddEditNotes';
 
 const notes = [
   {
@@ -36,14 +44,24 @@ const notes = [
 ];
 
 const Home = () => {
+  const [openModal, setOpenModal] = useState({
+    isShown: false,
+    type: 'add',
+    data: null,
+  });
+
+  const handleCloseModal = () => {
+    setOpenModal({ ...openModal, isShown: false });
+  };
+
   return (
     <>
       <Navbar />
       <Container sx={{ mt: 4 }}>
         <Grid container spacing={3}>
           {notes.map((note, index) => (
-            <Grid item xs={12} sm={6} md={4} display="flex" key={index}>
-              <Box sx={{ width: '100%', maxWidth: 360}}>
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Box sx={{ width: '100%', maxWidth: 360 }}>
                 <NoteCard
                   title={note.title}
                   date={note.date}
@@ -69,10 +87,40 @@ const Home = () => {
           width: 64,
           height: 64,
         }}
-        onClick={() => {}}
+        onClick={() => {
+          setOpenModal({ isShown: true, type: 'add', data: null });
+        }}
       >
         <AddIcon sx={{ fontSize: 32 }} />
       </Fab>
+
+      {/* MUI Modal */}
+      <Modal
+        open={openModal.isShown}
+        onClose={handleCloseModal}
+        aria-labelledby="add-edit-note-modal"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backdropFilter: 'blur(0.5px)',
+        }}
+      >
+        <Paper
+          elevation={3}
+          sx={{
+            width: { xs: '90%', sm: '70%', md: '40%' },
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            p: 3,
+            borderRadius: 2,
+            outline: 'none',
+            bgcolor: 'background.default',
+          }}
+        >
+          <AddEditNotes />
+        </Paper>
+      </Modal>
     </>
   );
 };
