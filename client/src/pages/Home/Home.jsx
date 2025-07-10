@@ -118,7 +118,18 @@ const Home = () => {
             bgcolor: 'background.default',
           }}
         >
-          <AddEditNotes />
+          <AddEditNotes 
+            onCancel={handleCloseModal} 
+            type={openModal.type}
+            noteData={openModal.data}
+            onClose = {()=>{
+              setOpenModal({
+                isShown: false,
+                type: "add",
+                data: null,
+              });
+            }}
+          />
         </Paper>
       </Modal>
     </>
