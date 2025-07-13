@@ -57,6 +57,15 @@ const Home = () => {
     }
   }
 
+  //Edit Notes
+  const handleEdit = (note) => {
+    setOpenModal({
+      isShown: true,
+      type: 'edit',
+      data: note,
+    });
+  };
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
@@ -77,7 +86,7 @@ const Home = () => {
                   content={item.content}
                   tags={item.tags}
                   isPinned={item.isPinned}
-                  onEdit={() => {}}
+                  onEdit={() => handleEdit(item)}
                   onDelete={() => {}}
                   onPinNote={() => {}}
                 />
@@ -102,8 +111,6 @@ const Home = () => {
       >
         <AddIcon sx={{ fontSize: 32 }} />
       </Fab>
-
-      {/* MUI Modal */}
       <Modal
         open={openModal.isShown}
         onClose={handleCloseModal}

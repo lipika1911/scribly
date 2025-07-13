@@ -22,7 +22,7 @@ const NoteCard = ({
         width: '100%',
         p: 2,
         minWidth: '360px',
-        height: 200, // Fixed height for uniform cards
+        height: 200,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -35,7 +35,6 @@ const NoteCard = ({
         },
       }}
     >
-      {/* Title & Date Row */}
       <Grid container justifyContent="space-between" alignItems="center">
         <Grid item>
           <Typography variant="subtitle2" color="text.primary">
@@ -58,7 +57,6 @@ const NoteCard = ({
         </Grid>
       </Grid>
 
-      {/* Content with line clamp */}
       <Typography
         variant="body2"
         color="text.secondary"
@@ -77,9 +75,7 @@ const NoteCard = ({
         {content}
       </Typography>
 
-      {/* Tags and Actions */}
       <Grid container justifyContent="space-between" alignItems="center" sx={{ mt: 2 }}>
-        {/* Scrollable Tags */}
         <Box
           sx={{
             display: 'flex',
@@ -87,7 +83,7 @@ const NoteCard = ({
             whiteSpace: 'nowrap',
             gap: 0.5,
             pr: 1,
-            maxWidth: '70%', // adjust as needed
+            maxWidth: '70%',
             scrollbarWidth: 'thin',
             '&::-webkit-scrollbar': {
               height: '4px',
@@ -102,8 +98,6 @@ const NoteCard = ({
             <Chip key={index} label={tag} size="small" color="primary" />
           ))}
         </Box>
-
-        {/* Action Buttons */}
         <Box>
           <IconButton
             onClick={onEdit}
