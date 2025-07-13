@@ -58,7 +58,17 @@ const Login = () => {
 
       if (response.data && response.data.accessToken) {
         localStorage.setItem("token", response.data.accessToken);
-        navigate("/dashboard");
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful',
+          text: 'Welcome back!',
+          confirmButtonColor: '#7743DB',
+          timer: 1500,
+          showConfirmButton: false,
+        }).then(() => {
+          navigate("/dashboard");
+        });
       }
     } catch (error) {
       let errorMessage = "An unexpected error occurred. Please try again.";

@@ -15,6 +15,9 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Navbar from '../../components/Navbar/Navbar';
 import { validateEmail } from '../../utils/helper';
+import axiosInstance from '../../utils/axiosInstance';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,6 +27,8 @@ const Signup = () => {
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -53,9 +58,51 @@ const Signup = () => {
 
     if (!valid) return;
 
-    console.log("Signup successful:", name, email, password);
+    try {
+      const response = await axiosInstance.post("/create-account", {
+        fullName: name,
+        email: email,
+        password: password,
+      });
 
-    // SIGNUP API
+      // If account already exists or custom error from server
+      if (response.data && response.data.error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Signup Failed',
+          text: response.data.message,
+          confirmButtonColor: '#7743DB',
+        });
+        return;
+      }
+
+      // Successful signup
+      if (response.data && response.data.accessToken) {
+        localStorage.setItem("token", response.data.accessToken);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Account Created!',
+          text: 'You can now log in to your account.',
+          confirmButtonColor: '#7743DB',
+        }).then(() => {
+          navigate("/login");
+        });
+      }
+
+    } catch (error) {
+      let errorMessage = "An unexpected error occurred. Please try again.";
+      if (error.response && error.response.data && error.response.data.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Signup Failed',
+        text: errorMessage,
+        confirmButtonColor: '#7743DB',
+      });
+    }
   };
 
   const handleShowPassword = () => {
