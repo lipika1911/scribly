@@ -12,8 +12,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { getInitials } from '../../utils/helper';
 
-const ProfileInfo = ({ onLogout }) => {
-  const userName = 'Lipika Arya';
+const ProfileInfo = ({ userInfo, onLogout }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuOpen = (event) => {
@@ -41,7 +40,7 @@ const ProfileInfo = ({ onLogout }) => {
             height: 36,
           }}
         >
-          {getInitials(userName)}
+          {getInitials(userInfo?.fullName)}
         </Avatar>
         <KeyboardArrowDownIcon sx={{ color: 'primary.contrastText' }} />
       </IconButton>
@@ -61,7 +60,7 @@ const ProfileInfo = ({ onLogout }) => {
       >
         <Box px={2} py={1}>
           <Typography variant="subtitle2" fontWeight={600}>
-            {userName}
+            {userInfo?.fullName || 'User'}
           </Typography>
         </Box>
         <MenuItem 

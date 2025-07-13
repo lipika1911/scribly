@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Grid,
@@ -11,6 +11,8 @@ import AddIcon from '@mui/icons-material/Add';
 import NoteCard from '../../components/Cards/NoteCard';
 import Navbar from '../../components/Navbar/Navbar';
 import AddEditNotes from './AddEditNotes';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../utils/axiosInstance';
 
 const notes = [
   {
@@ -54,9 +56,32 @@ const Home = () => {
     setOpenModal({ ...openModal, isShown: false });
   };
 
+  const [userInfo, setUserInfo] = useState(null);
+  const navigate = useNavigate(); 
+
+  //Get user info
+  const getUserInfo = async() => {
+    try{
+      const response = await axiosInstance.get("/get-user");
+      if(response.data&& response.data.user){
+        setUserInfo(response.data.user);
+      }
+    }catch(error){
+      if(error.response.status === 401){
+        localStorage.clear();
+        navigate("/login")
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+    return () => {};
+  },[])
+
   return (
     <>
-      <Navbar />
+      <Navbar userInfo={userInfo} />
       <Container sx={{ mt: 4 }}>
         <Grid container spacing={3}>
           {notes.map((note, index) => (

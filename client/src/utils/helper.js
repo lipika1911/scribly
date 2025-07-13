@@ -4,7 +4,10 @@ export const validateEmail= (email) => {
 }
 
 export const getInitials = (name) => {
+  if (!name || typeof name !== 'string') return '?'; 
+
   return name
+    .trim()
     .split(' ')
     .map((n) => n[0])
     .join('')
