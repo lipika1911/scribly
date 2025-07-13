@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import axiosInstance from '../../utils/axiosInstance';
 import Swal from 'sweetalert2';
 
-const AddEditNotes = ({ noteData, type, getAllNotes, onClose, onCancel }) => {
+const AddEditNotes = ({ noteData, type, getAllNotes, onClose, onCancel, showToastMessage }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tags, setTags] = useState([]);
@@ -37,6 +37,7 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose, onCancel }) => {
       });
 
       if (response.data && response.data.note) {
+        showToastMessage("Note Added Successfully")
         getAllNotes();
         onClose();
       }
@@ -61,6 +62,7 @@ const AddEditNotes = ({ noteData, type, getAllNotes, onClose, onCancel }) => {
       });
 
       if (response.data && response.data.note) {
+        showToastMessage("Note Updated Successfully")
         getAllNotes();
         onClose();
       }
