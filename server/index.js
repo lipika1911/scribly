@@ -30,6 +30,7 @@ app.get("/", (req, res) => {
     res.json({ data: "hello" });
 });
 
+//CREATE ACCOUNT
 app.post("/create-account", async(req, res) => {
     const { fullName, email, password } = req.body;
 
@@ -78,6 +79,7 @@ app.post("/create-account", async(req, res) => {
     })
 });
 
+//LOGIN
 app.post("/login", async(req, res) => {
     const {email, password} = req.body;
 
@@ -116,6 +118,26 @@ app.post("/login", async(req, res) => {
         });
     }
 });
+
+//GET USER
+app.get("/get-user",authenticateToken, async(req, res) => {
+    const { user } = req.user;
+    const isUser = await User.findOne({_id: user._id});
+
+    if(!isUser){
+        return res.sendStatus(401);
+    }
+
+    return res.json({
+        user: {
+            fullName: isUser.fullName,
+            email: isUser.email,
+            _id: isUser._id,
+            createdOn: isUser.createdOn,
+        },
+        message: "",
+    });
+})
 
 //ADD NOTE
 app.post("/add-note", authenticateToken, async(req,res) => {
@@ -246,7 +268,7 @@ app.put("/update-note-pinned/:noteId", authenticateToken, async (req, res) => {
     const noteId = req.params.noteId;
     const {isPinned} = req.body;
     const {user} = req.user;
-    
+
     try{
         const note = await Note.findOne({ _id: noteId, userId: user._id});
 
