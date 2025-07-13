@@ -14,6 +14,8 @@ import AddEditNotes from './AddEditNotes';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosInstance';
 import Toast from '../../components/ToastMessage/Toast';
+import EmptyCard from '../../components/EmptyCard/EmptyCard';
+import addNotesImg from '../../../public/add-notes.svg'
 
 const Home = () => {
   const [allNotes, setAllNotes] = useState([]);
@@ -119,26 +121,32 @@ const Home = () => {
     <>
       <Navbar userInfo={userInfo} />
       <Container sx={{ mt: 4 }}>
-        <Grid container spacing={3}>
-          {allNotes.map((item, index) => (
-            <Grid item xs={12} sm={6} md={4} key={item._id}>
-              <Box sx={{ width: '100%', maxWidth: 360 }}>
-                <NoteCard
-                  title={item.title}
-                  date={item.createdOn}
-                  content={item.content}
-                  tags={item.tags}
-                  isPinned={item.isPinned}
-                  onEdit={() => handleEdit(item)}
-                  onDelete={() => deleteNote(item)}
-                  onPinNote={() => {}}
-                />
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
+        {allNotes.length > 0 ? (
+          <Grid container spacing={3}>
+            {allNotes.map((item) => (
+              <Grid item xs={12} sm={6} md={4} key={item._id}>
+                <Box sx={{ width: '100%', maxWidth: 360 }}>
+                  <NoteCard
+                    title={item.title}
+                    date={item.createdOn}
+                    content={item.content}
+                    tags={item.tags}
+                    isPinned={item.isPinned}
+                    onEdit={() => handleEdit(item)}
+                    onDelete={() => deleteNote(item)}
+                    onPinNote={() => {}}
+                  />
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <EmptyCard 
+            imgSrc={addNotesImg}
+            message={`Start creating your first Note! Click the 'Add' button to jot down thoughts, ideas and reminders. Let's get started!`}
+          />
+        )}
       </Container>
-
       <Fab
         color="primary"
         sx={{
