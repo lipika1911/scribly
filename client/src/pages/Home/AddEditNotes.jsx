@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   TextField,
@@ -9,24 +9,71 @@ import {
   IconButton,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import axiosInstance from '../../utils/axiosInstance';
+import Swal from 'sweetalert2';
 
-const AddEditNotes = ({ noteData, type, onClose, onCancel }) => {
+const AddEditNotes = ({ noteData, type, getAllNotes, onClose, onCancel }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tags, setTags] = useState([]);
   const [inputTag, setInputTag] = useState('');
-
   const [titleError, setTitleError] = useState('');
   const [contentError, setContentError] = useState('');
 
-  // Add note
+  useEffect(() => {
+    if (type === 'edit' && noteData) {
+      setTitle(noteData.title || '');
+      setContent(noteData.content || '');
+      setTags(noteData.tags || []);
+    }
+  }, [type, noteData]);
+
   const addNewNote = async () => {
-    // Your logic here
+    try {
+      const response = await axiosInstance.post('/add-note', {
+        title,
+        content,
+        tags,
+      });
+
+      if (response.data && response.data.note) {
+        getAllNotes();
+        onClose();
+      }
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message || 'Something went wrong!';
+      Swal.fire({
+        icon: 'error',
+        title: 'Add Note Failed',
+        text: errorMessage,
+        confirmButtonColor: '#7743DB',
+      });
+    }
   };
 
-  // Edit note
   const editNote = async () => {
-    // Your logic here
+    try {
+      const response = await axiosInstance.put(`/edit-note/${noteData._id}`, {
+        title,
+        content,
+        tags,
+      });
+
+      if (response.data && response.data.note) {
+        getAllNotes();
+        onClose();
+      }
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message || 'Something went wrong!';
+      Swal.fire({
+        icon: 'error',
+        title: 'Edit Note Failed',
+        text: errorMessage,
+        confirmButtonColor: '#7743DB',
+      });
+    }
   };
 
   const handleAddTag = () => {
@@ -72,16 +119,14 @@ const AddEditNotes = ({ noteData, type, onClose, onCancel }) => {
       <IconButton
         aria-label="close"
         onClick={onCancel}
-        sx={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-        }}
+        sx={{ position: 'absolute', top: 0, right: 0 }}
       >
         <CloseIcon />
       </IconButton>
 
-      <Typography variant="h6" color="primary">Add / Edit Note</Typography>
+      <Typography variant="h6" color="primary">
+        {type === 'edit' ? 'Edit Note' : 'Add Note'}
+      </Typography>
 
       <TextField
         label="Title"
@@ -114,7 +159,9 @@ const AddEditNotes = ({ noteData, type, onClose, onCancel }) => {
       />
 
       <Box>
-        <Typography variant="subtitle1" color="text.primary">Tags</Typography>
+        <Typography variant="subtitle1" color="text.primary">
+          Tags
+        </Typography>
         <Box display="flex" gap={1} mt={1}>
           <TextField
             variant="outlined"
@@ -150,7 +197,7 @@ const AddEditNotes = ({ noteData, type, onClose, onCancel }) => {
           Cancel
         </Button>
         <Button variant="contained" color="primary" onClick={handleAddNote}>
-          Add Note
+          {type === 'edit' ? 'Update Note' : 'Add Note'}
         </Button>
       </Stack>
     </Box>

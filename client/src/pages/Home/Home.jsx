@@ -18,7 +18,7 @@ const Home = () => {
   const [allNotes, setAllNotes] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate(); 
-  
+
   const [openModal, setOpenModal] = useState({
     isShown: false,
     type: 'add',
@@ -138,6 +138,7 @@ const Home = () => {
                 data: null,
               });
             }}
+            getAllNotes = {getAllNotes}
           />
         </Paper>
       </Modal>

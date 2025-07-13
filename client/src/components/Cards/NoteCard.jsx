@@ -3,7 +3,7 @@ import { Paper, Grid, Typography, IconButton, Box, Chip } from '@mui/material';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import moment from "moment";
+import moment from 'moment';
 
 const NoteCard = ({
   title,
@@ -22,7 +22,7 @@ const NoteCard = ({
         width: '100%',
         p: 2,
         minWidth: '360px',
-        minHeight: 110,
+        height: 200, // Fixed height for uniform cards
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -35,19 +35,20 @@ const NoteCard = ({
         },
       }}
     >
+      {/* Title & Date Row */}
       <Grid container justifyContent="space-between" alignItems="center">
         <Grid item>
           <Typography variant="subtitle2" color="text.primary">
             {title}
           </Typography>
           <Typography variant="caption" color="text.secondary">
-            {moment(date).format("Do MMM YYYY")}
+            {moment(date).format('Do MMM YYYY')}
           </Typography>
         </Grid>
         <Grid item>
           <IconButton
             onClick={onPinNote}
-            size='small'
+            size="small"
             sx={{
               color: isPinned ? 'primary.main' : 'text.disabled',
             }}
@@ -57,6 +58,7 @@ const NoteCard = ({
         </Grid>
       </Grid>
 
+      {/* Content with line clamp */}
       <Typography
         variant="body2"
         color="text.secondary"
@@ -68,21 +70,44 @@ const NoteCard = ({
           display: '-webkit-box',
           WebkitLineClamp: 3,
           WebkitBoxOrient: 'vertical',
+          lineHeight: '1.3rem',
+          maxHeight: '4rem',
         }}
       >
         {content}
       </Typography>
 
+      {/* Tags and Actions */}
       <Grid container justifyContent="space-between" alignItems="center" sx={{ mt: 2 }}>
-        <Box display="flex" flexWrap="wrap" gap={0.5}>
+        {/* Scrollable Tags */}
+        <Box
+          sx={{
+            display: 'flex',
+            overflowX: 'auto',
+            whiteSpace: 'nowrap',
+            gap: 0.5,
+            pr: 1,
+            maxWidth: '70%', // adjust as needed
+            scrollbarWidth: 'thin',
+            '&::-webkit-scrollbar': {
+              height: '4px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: '#ccc',
+              borderRadius: '2px',
+            },
+          }}
+        >
           {tags?.map((tag, index) => (
             <Chip key={index} label={tag} size="small" color="primary" />
           ))}
         </Box>
+
+        {/* Action Buttons */}
         <Box>
           <IconButton
             onClick={onEdit}
-            size='small'
+            size="small"
             sx={{
               color: 'text.primary',
               '&:hover': {
@@ -94,7 +119,7 @@ const NoteCard = ({
           </IconButton>
           <IconButton
             onClick={onDelete}
-            size='small'
+            size="small"
             sx={{
               color: 'text.primary',
               '&:hover': {
