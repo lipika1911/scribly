@@ -1,8 +1,9 @@
 import React from 'react';
-import { Paper, Grid, Typography, IconButton, Box } from '@mui/material';
+import { Paper, Grid, Typography, IconButton, Box, Chip } from '@mui/material';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import moment from "moment";
 
 const NoteCard = ({
   title,
@@ -21,7 +22,7 @@ const NoteCard = ({
         width: '100%',
         p: 2,
         minWidth: '360px',
-        minHeight: 110, // uniform height
+        minHeight: 110,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -40,12 +41,13 @@ const NoteCard = ({
             {title}
           </Typography>
           <Typography variant="caption" color="text.secondary">
-            {date}
+            {moment(date).format("Do MMM YYYY")}
           </Typography>
         </Grid>
         <Grid item>
           <IconButton
             onClick={onPinNote}
+            size='small'
             sx={{
               color: isPinned ? 'primary.main' : 'text.disabled',
             }}
@@ -72,12 +74,15 @@ const NoteCard = ({
       </Typography>
 
       <Grid container justifyContent="space-between" alignItems="center" sx={{ mt: 2 }}>
-        <Typography variant="caption" color="text.secondary">
-          {tags}
-        </Typography>
+        <Box display="flex" flexWrap="wrap" gap={0.5}>
+          {tags?.map((tag, index) => (
+            <Chip key={index} label={tag} size="small" color="primary" />
+          ))}
+        </Box>
         <Box>
           <IconButton
             onClick={onEdit}
+            size='small'
             sx={{
               color: 'text.primary',
               '&:hover': {
@@ -89,6 +94,7 @@ const NoteCard = ({
           </IconButton>
           <IconButton
             onClick={onDelete}
+            size='small'
             sx={{
               color: 'text.primary',
               '&:hover': {
