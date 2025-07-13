@@ -88,6 +88,27 @@ const Home = () => {
     });
   }
 
+  //delete note
+  const deleteNote = async (data) => {
+    try {
+      const response = await axiosInstance.delete(`/delete-note/${data._id}`);
+
+      if (response.data && !response.data.error) {
+        showToastMessage("Note Deleted Successfully", 'delete')
+        getAllNotes();
+      }
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message || 'Something went wrong!';
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to delete note',
+        text: errorMessage,
+        confirmButtonColor: '#7743DB',
+      });
+    }
+  }
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
@@ -109,7 +130,7 @@ const Home = () => {
                   tags={item.tags}
                   isPinned={item.isPinned}
                   onEdit={() => handleEdit(item)}
-                  onDelete={() => {}}
+                  onDelete={() => deleteNote(item)}
                   onPinNote={() => {}}
                 />
               </Box>
