@@ -3,29 +3,28 @@ import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import ProfileInfo from '../Cards/ProfileInfo';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
 import { Box } from '@mui/material';
 import { useState } from 'react';
 
-const Navbar = ({userInfo}) => {
-
+const Navbar = ({ userInfo }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const onLogout = () => {
     localStorage.clear();
-    navigate("/login")
-  }
+    navigate("/login");
+  };
 
-  const handleSearch = () => {
-  }
+  const handleSearch = () => {};
 
   const onClearSearch = () => {
     setSearchQuery("");
-  }
+  };
 
-
+  const isHomePage = location.pathname === '/dashboard';
   return (
     <AppBar position="static" sx={{ backgroundColor: 'primary', color: '#000000' }}>
       <Container maxWidth="xl">
@@ -38,17 +37,21 @@ const Navbar = ({userInfo}) => {
           >
             Scribly
           </Typography>
-          <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
-            <SearchBar 
-              value={searchQuery}
-              onChange={({target}) => {
-                setSearchQuery(target.value);
-              }}
-              handleSearch={handleSearch}
-              onClearSearch={onClearSearch}
-            />
-          </Box>
-          <ProfileInfo userInfo = {userInfo} onLogout={onLogout}/>
+
+          {isHomePage && (
+            <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+              <SearchBar 
+                value={searchQuery}
+                onChange={({ target }) => setSearchQuery(target.value)}
+                handleSearch={handleSearch}
+                onClearSearch={onClearSearch}
+              />
+            </Box>
+          )}
+
+          {isHomePage && (
+            <ProfileInfo userInfo={userInfo} onLogout={onLogout} />
+          )}
         </Toolbar>
       </Container>
     </AppBar>
