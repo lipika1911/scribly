@@ -136,6 +136,23 @@ const Home = () => {
     getAllNotes();
   }
 
+  //handle isPinned
+  const updateIsPinned = async(noteData) => {
+    try {
+      const response = await axiosInstance.put(`/update-note-pinned/${noteData._id}`, {
+        isPinned: !noteData.isPinned,
+      });
+
+      if (response.data && response.data.note) {
+        showToastMessage("Note Updated Successfully")
+        getAllNotes();
+        onClose();
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
@@ -163,7 +180,7 @@ const Home = () => {
                     isPinned={item.isPinned}
                     onEdit={() => handleEdit(item)}
                     onDelete={() => deleteNote(item)}
-                    onPinNote={() => {}}
+                    onPinNote={() => updateIsPinned(item)}
                   />
                 </Box>
               </Grid>
