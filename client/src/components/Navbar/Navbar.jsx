@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,25 +7,42 @@ import ProfileInfo from '../Cards/ProfileInfo';
 import { useNavigate, useLocation } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
 import { Box } from '@mui/material';
-import { useState } from 'react';
 
-const Navbar = ({ userInfo }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+const Navbar = ({ userInfo, onSearchNote, handleClearSearch }) => {
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const isHomePage = location.pathname === '/dashboard';
+
+  // ✅ Debounced search
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      if (searchQuery.trim()) {
+        onSearchNote(searchQuery);
+      } else {
+        handleClearSearch();
+      }
+    }, 500); // Delay of 500ms
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchQuery, onSearchNote, handleClearSearch]);
 
   const onLogout = () => {
     localStorage.clear();
-    navigate("/login");
+    navigate('/login');
   };
 
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      onSearchNote(searchQuery);
+    }
+  };
 
   const onClearSearch = () => {
-    setSearchQuery("");
+    setSearchQuery('');
+    handleClearSearch();
   };
 
-  const isHomePage = location.pathname === '/dashboard';
   return (
     <AppBar position="static" sx={{ backgroundColor: 'primary', color: '#000000' }}>
       <Container maxWidth="xl">
@@ -33,14 +51,14 @@ const Navbar = ({ userInfo }) => {
             variant="h4"
             noWrap
             component="div"
-            color='primary.contrastText'
+            color="primary.contrastText"
           >
             Scribly
           </Typography>
 
           {isHomePage && (
             <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
-              <SearchBar 
+              <SearchBar
                 value={searchQuery}
                 onChange={({ target }) => setSearchQuery(target.value)}
                 handleSearch={handleSearch}

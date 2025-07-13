@@ -15,7 +15,6 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosInstance';
 import Toast from '../../components/ToastMessage/Toast';
 import EmptyCard from '../../components/EmptyCard/EmptyCard';
-import addNotesImg from '../../../public/add-notes.svg'
 
 const Home = () => {
   const [allNotes, setAllNotes] = useState([]);
@@ -25,6 +24,7 @@ const Home = () => {
     message: "",
     type: "add",
   })
+  const [isSearch, setIsSearch] = useState(false);
   const navigate = useNavigate(); 
 
   const [openModal, setOpenModal] = useState({
@@ -111,6 +111,31 @@ const Home = () => {
     }
   }
 
+  //search notes
+  const onSearchNote = async(query) => {
+    if (!query.trim()) {
+      handleClearSearch();
+      return;
+    }
+    try{
+      const response = await axiosInstance.get("/search-notes",{
+        params: {query},
+      });
+
+      if(response.data && response.data.notes){
+        setIsSearch(true);
+        setAllNotes(response.data.notes);
+      }
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  const handleClearSearch = () => {
+    setIsSearch(false);
+    getAllNotes();
+  }
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
@@ -119,7 +144,11 @@ const Home = () => {
 
   return (
     <>
-      <Navbar userInfo={userInfo} />
+      <Navbar 
+        userInfo={userInfo} 
+        onSearchNote={onSearchNote}
+        handleClearSearch={handleClearSearch} 
+      />
       <Container sx={{ mt: 4 }}>
         {allNotes.length > 0 ? (
           <Grid container spacing={3}>
@@ -142,8 +171,10 @@ const Home = () => {
           </Grid>
         ) : (
           <EmptyCard 
-            imgSrc={addNotesImg}
-            message={`Start creating your first Note! Click the 'Add' button to jot down thoughts, ideas and reminders. Let's get started!`}
+            imgSrc={isSearch ? "/no-data-found.svg" : "/add-notes.svg"}
+            message={isSearch ?
+              `Oops! No Notes found matching your search.`:
+              `Start creating your first Note! Click the 'Add' button to jot down thoughts, ideas and reminders. Let's get started!`}
           />
         )}
       </Container>
