@@ -35,6 +35,7 @@ const Landing = () => {
 
   return (
     <Box
+      className="animate-fade-in"
       sx={{
         minHeight: '100vh',
         backgroundColor: '#ffffff',

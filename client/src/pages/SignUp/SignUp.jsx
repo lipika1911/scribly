@@ -111,8 +111,9 @@ const Signup = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar className="animate-fade-in" />
       <Container
+        className="animate-fade-in"
         maxWidth="sm"
         sx={{
           // pt: 8,

@@ -165,8 +165,9 @@ const Home = () => {
         userInfo={userInfo} 
         onSearchNote={onSearchNote}
         handleClearSearch={handleClearSearch} 
+        className="animate-fade-in"
       />
-      <Container sx={{ mt: 4 }}>
+      <Container sx={{ mt: 4 }} className="animate-fade-in">
         {allNotes.length > 0 ? (
           <Grid container spacing={3}>
             {allNotes.map((item) => (
