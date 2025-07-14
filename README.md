@@ -55,7 +55,7 @@ Scribly is a clean and minimalistic note-taking web app built with the **MERN st
 ### ⚙️ Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/scribly.git
+git clone https://github.com/lipika1911/scribly.git
 cd scribly
 ```
 
