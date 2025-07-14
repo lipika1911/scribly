@@ -95,21 +95,33 @@ const Login = () => {
       <Container
         maxWidth="sm"
         sx={{
-          pt: 16,
+          // pt: 8,
+          minHeight: '90vh',
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'flex-start',
+          alignItems: 'center',
         }}
       >
         <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
           <Typography
             variant="h4"
-            component="h1"
-            gutterBottom
             align="center"
-            sx={{ mb: 4, fontWeight: 600 }}
+            sx={{
+              mb: 2,
+              fontWeight: 800,
+              color: '#7743DB',
+              fontSize: { xs: '2rem', md: '2.5rem' }
+            }}
           >
-            Login
+            Welcome Back 👋
+          </Typography>
+
+          <Typography
+            variant="subtitle1"
+            align="center"
+            sx={{ mb: 4, color: '#666666' }}
+          >
+            Login to Scribly and continue where you left off!
           </Typography>
 
           <Box
@@ -167,10 +179,14 @@ const Login = () => {
                 size="large"
                 sx={{
                   mt: 2,
-                  backgroundColor: '#7743DB',
-                  fontWeight: 600,
-                  alignSelf: 'center',
-                  px: 6,
+                  background: 'linear-gradient(45deg, #7743DB, #9C6FE4)',
+                  fontWeight: 700,
+                  color: '#fff',
+                  px: 5,
+                  py: 1.5,
+                  '&:hover': {
+                    background: 'linear-gradient(45deg, #6a38c4, #8e60e4)',
+                  },
                 }}
               >
                 Login

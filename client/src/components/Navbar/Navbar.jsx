@@ -47,7 +47,17 @@ const Navbar = ({ userInfo, onSearchNote, handleClearSearch }) => {
     <AppBar position="static" sx={{ backgroundColor: '#7743DB', color: '#ffffff' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box 
+            sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}
+            onClick={() => {
+              const token = localStorage.getItem('token');
+              if (token) {
+                navigate('/dashboard');
+              } else {
+                navigate('/');
+              }
+            }}
+          >
             <HistoryEduIcon sx={{ fontSize: 38, color: '#ffffff' }} />
             <Typography
               variant="h4"
@@ -59,7 +69,6 @@ const Navbar = ({ userInfo, onSearchNote, handleClearSearch }) => {
               Scribly
             </Typography>
           </Box>
-
           {isHomePage && (
             <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
               <SearchBar
