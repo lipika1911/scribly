@@ -7,6 +7,7 @@ import ProfileInfo from '../Cards/ProfileInfo';
 import { useNavigate, useLocation } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
 import { Box } from '@mui/material';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 
 const Navbar = ({ userInfo, onSearchNote, handleClearSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -14,7 +15,6 @@ const Navbar = ({ userInfo, onSearchNote, handleClearSearch }) => {
   const location = useLocation();
   const isHomePage = location.pathname === '/dashboard';
 
-  // ✅ Debounced search
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (searchQuery.trim()) {
@@ -22,7 +22,7 @@ const Navbar = ({ userInfo, onSearchNote, handleClearSearch }) => {
       } else {
         handleClearSearch();
       }
-    }, 500); // Delay of 500ms
+    }, 500);
 
     return () => clearTimeout(delayDebounce);
   }, [searchQuery, onSearchNote, handleClearSearch]);
@@ -44,17 +44,21 @@ const Navbar = ({ userInfo, onSearchNote, handleClearSearch }) => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: 'primary', color: '#000000' }}>
+    <AppBar position="static" sx={{ backgroundColor: '#7743DB', color: '#ffffff' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography
-            variant="h4"
-            noWrap
-            component="div"
-            color="primary.contrastText"
-          >
-            Scribly
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <HistoryEduIcon sx={{ fontSize: 38, color: '#ffffff' }} />
+            <Typography
+              variant="h4"
+              noWrap
+              component="div"
+              color="inherit"
+              sx={{ fontWeight: 600 }}
+            >
+              Scribly
+            </Typography>
+          </Box>
 
           {isHomePage && (
             <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>

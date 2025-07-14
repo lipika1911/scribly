@@ -4,25 +4,37 @@ import SignUp from './pages/SignUp/SignUp';
 import {
   createBrowserRouter,
   RouterProvider,
-  Navigate
 } from "react-router-dom";
+import PublicRoute from './utils/PublicRoute';
+import ProtectedRoute from './utils/ProtectedRoute';
+import Landing from './pages/Landing/Landing';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <Landing />
+    ),
   },
   {
     path: "/dashboard",
-    element: <Home />,
+    element: (
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <Login />
+    ),
   },
   {
     path: "/signup",
-    element: <SignUp />,
+    element: (
+      <SignUp />
+    ),
   },
 ]);
 
