@@ -69,6 +69,12 @@ const Login = () => {
         }).then(() => {
           navigate("/dashboard");
         });
+      }else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: 'Something went wrong. Please try again.',
+        });
       }
     } catch (error) {
       let errorMessage = "An unexpected error occurred. Please try again.";

@@ -88,7 +88,7 @@ app.post("/login", async(req, res) => {
     }
 
     if(!password){
-        return res.status(400)({message: "Password is required"})
+        return res.status(400).json({message: "Password is required"})
     }
 
     const userInfo = await User.findOne({email: email});
@@ -117,6 +117,7 @@ app.post("/login", async(req, res) => {
             message: "Invalid Credentials"
         });
     }
+
 });
 
 //GET USER
