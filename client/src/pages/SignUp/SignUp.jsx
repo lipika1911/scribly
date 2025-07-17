@@ -78,9 +78,7 @@ const Signup = () => {
       }
 
       // Successful signup
-      if (response.data && response.data.accessToken) {
-        localStorage.setItem("token", response.data.accessToken);
-
+      if (response.data && !response.data.error) {
         Swal.fire({
           icon: 'success',
           title: 'Account Created!',

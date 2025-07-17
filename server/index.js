@@ -51,14 +51,12 @@ app.post("/create-account", async(req, res) => {
     }
 
     const isUser = await User.findOne({email: email});
-
     if(isUser){
         return res.json({
             error: true,
             message: "User already exists!",
         })
     }
-
     const user = new User({
         fullName, 
         email, 
@@ -66,15 +64,8 @@ app.post("/create-account", async(req, res) => {
     });
 
     await user.save();
-
-    const accessToken = jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET,{
-        expiresIn: "3600m"
-    })
-
     return res.json({
         error: false,
-        user,
-        accessToken,
         message: "Registration Successful",
     })
 });
