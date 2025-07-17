@@ -74,46 +74,44 @@ app.post("/create-account", async (req, res) => {
     });
 });
 
-
 //LOGIN
-app.post("/login", async(req, res) => {
-    const {email, password} = req.body;
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
 
-    if(!email){
-        return res.status(400).json({message: "Email is required"});
+    if (!email) {
+        return res.status(400).json({ message: "Email is required" });
     }
 
-    if(!password){
-        return res.status(400).json({message: "Password is required"})
+    if (!password) {
+        return res.status(400).json({ message: "Password is required" });
     }
 
-    const userInfo = await User.findOne({email: email});
-    
-    if(!userInfo){
-        return res.status(400).json({message: "User not found"});
+    const userInfo = await User.findOne({ email: email });
+
+    if (!userInfo) {
+        return res.status(400).json({ message: "User not found" });
     }
 
-    if(userInfo.email == email && userInfo.password == password){
-        const user = {user: userInfo};
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET,{
-            expiresIn: "3600m",
-        });
-
-        return res.json({
-            error: false,
-            message: "Login Successful!",
-            email,
-            accessToken,
-        });  
+    if (userInfo.password !== password) {
+        return res.status(400).json({ error: true, message: "Invalid Credentials" });
     }
 
-    else{
-        return res.status(400).json({
-            error: true,
-            message: "Invalid Credentials"
-        });
-    }
+    const user = {
+        id: userInfo._id,
+        email: userInfo.email,
+        fullName: userInfo.fullName
+    };
 
+    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "3600m",
+    });
+
+    return res.json({
+        error: false,
+        message: "Login Successful!",
+        email: user.email,
+        accessToken,
+    });
 });
 
 //GET USER
@@ -172,7 +170,6 @@ app.post("/add-note", authenticateToken, async(req,res) => {
     }
     
 })
-
 
 //EDIT NOTE
 app.put("/edit-note/:noteId", authenticateToken, async(req,res) => {
