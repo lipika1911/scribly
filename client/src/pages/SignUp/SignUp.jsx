@@ -33,11 +33,11 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
+    //client side error handling
     let valid = true;
     setNameError("");
     setEmailError("");
     setPasswordError("");
-
     if (!name.trim()) {
       setNameError("Name is required");
       valid = false;
@@ -58,6 +58,7 @@ const Signup = () => {
 
     if (!valid) return;
 
+    //this block runs if no error in client side and valid = true
     try {
       const response = await axiosInstance.post("/create-account", {
         fullName: name,
@@ -150,7 +151,7 @@ const Signup = () => {
             noValidate
             autoComplete="off"
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-            onSubmit={handleSignup}
+            onSubmit={handleSignup} //to handle form submission
           >
             <FormControl fullWidth>
               <TextField
