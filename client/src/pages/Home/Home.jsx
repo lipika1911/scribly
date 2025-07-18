@@ -169,9 +169,9 @@ const Home = () => {
       />
       <Container sx={{ mt: 4 }} className="animate-fade-in">
         {allNotes.length > 0 ? (
-          <Grid container spacing={3}>
+          <Grid container spacing={3} columns={{ xs: 4, sm: 8, md: 12 }}>
             {allNotes.map((item) => (
-              <Grid item xs={12} sm={6} md={4} key={item._id}>
+              <Grid key={item._id} span={{ xs: 4, sm: 4, md: 4 }}>
                 <Box sx={{ width: '100%', maxWidth: 360 }}>
                   <NoteCard
                     title={item.title}

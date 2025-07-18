@@ -28,15 +28,13 @@ const NoteCard = ({
         justifyContent: 'space-between',
         bgcolor: 'background.paper',
         transition: 'all 0.3s ease-in-out',
-        marginLeft: 0,
-        marginRight: 0,
         '&:hover': {
           boxShadow: 6,
         },
       }}
     >
       <Grid container justifyContent="space-between" alignItems="center">
-        <Grid item>
+        <Grid>
           <Typography variant="subtitle2" color="text.primary">
             {title}
           </Typography>
@@ -44,7 +42,7 @@ const NoteCard = ({
             {moment(date).format('Do MMM YYYY')}
           </Typography>
         </Grid>
-        <Grid item>
+        <Grid>
           <IconButton
             onClick={onPinNote}
             size="small"
@@ -95,7 +93,7 @@ const NoteCard = ({
           }}
         >
           {tags?.map((tag, index) => (
-            <Chip key={index} label={tag} size="small" color="primary" />
+            <Chip key={tag + index} label={tag} size="small" color="primary" />
           ))}
         </Box>
         <Box>
