@@ -168,7 +168,6 @@ app.post("/add-note", authenticateToken, async(req,res) => {
     
 })
 
-
 //EDIT NOTE
 app.put("/edit-note/:noteId", authenticateToken, async(req,res) => {
     const noteId = req.params.noteId;

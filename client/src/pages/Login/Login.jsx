@@ -29,6 +29,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
+    // prevents page refresh on form submission which is a default behaviour
     e.preventDefault();
 
     let valid = true;
@@ -147,6 +148,8 @@ const Login = () => {
                   setEmail(e.target.value);
                   setEmailError("");
                 }}
+                // '!!' converts any datatype to boolean and returns according to its truthy or falsy values
+                // in this case emailError is a string so it returns false if its "" and true for non empty string
                 error={!!emailError}
                 helperText={emailError}
               />

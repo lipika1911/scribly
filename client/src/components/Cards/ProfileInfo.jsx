@@ -40,7 +40,7 @@ const ProfileInfo = ({ userInfo, onLogout }) => {
             height: 36,
           }}
         >
-          {getInitials(userInfo?.fullName)}
+          {getInitials(userInfo?.fullName || "User")}
         </Avatar>
         <KeyboardArrowDownIcon sx={{ color: 'primary.contrastText' }} />
       </IconButton>

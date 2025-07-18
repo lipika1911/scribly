@@ -16,16 +16,13 @@ const Navbar = ({ userInfo, onSearchNote, handleClearSearch }) => {
   const isHomePage = location.pathname === '/dashboard';
 
   useEffect(() => {
+    if (searchQuery.trim() === '') return;
     const delayDebounce = setTimeout(() => {
-      if (searchQuery.trim()) {
-        onSearchNote(searchQuery);
-      } else {
-        handleClearSearch();
-      }
+      onSearchNote(searchQuery);
     }, 500);
 
     return () => clearTimeout(delayDebounce);
-  }, [searchQuery, onSearchNote, handleClearSearch]);
+  }, [searchQuery, onSearchNote]);
 
   const onLogout = () => {
     localStorage.clear();

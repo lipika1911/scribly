@@ -47,7 +47,6 @@ const Landing = () => {
         py: { xs: 4, md: 0 },
       }}
     >
-      {/* Left Content */}
       <Box
         sx={{
           flex: 1,

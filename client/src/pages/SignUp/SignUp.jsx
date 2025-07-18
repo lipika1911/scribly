@@ -31,6 +31,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
+    //prevents page refresh as its the default behavior in form submission
     e.preventDefault();
 
     //client side error handling
@@ -68,6 +69,7 @@ const Signup = () => {
 
       // If account already exists or custom error from server
       if (response.data && response.data.error) {
+        console.log(response.data.error)
         Swal.fire({
           icon: 'error',
           title: 'Signup Failed',
@@ -98,7 +100,7 @@ const Signup = () => {
       Swal.fire({
         icon: 'error',
         title: 'Signup Failed',
-        text: errorMessage,
+        text: errorMessage, 
         confirmButtonColor: '#7743DB',
       });
     }
@@ -149,7 +151,8 @@ const Signup = () => {
             noValidate
             autoComplete="off"
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-            onSubmit={handleSignup} //to handle form submission
+            //to handle form submission, it runs if enter key is pressed or if user clicks submit button
+            onSubmit={handleSignup} 
           >
             <FormControl fullWidth>
               <TextField
@@ -160,6 +163,8 @@ const Signup = () => {
                   setName(e.target.value);
                   setNameError("");
                 }}
+                // '!!' converts any datatype to boolean and returns according to its truthy or falsy values
+                // in this case nameError is a string so it returns false if its "" and true for non empty string
                 error={!!nameError}
                 helperText={nameError}
               />
